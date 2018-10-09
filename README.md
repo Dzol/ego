@@ -1,0 +1,2 @@
+# ego
+Echo Go Server
