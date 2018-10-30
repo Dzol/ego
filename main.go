@@ -1,28 +1,28 @@
 package main
 
 import (
-	"os"
-	"os/signal"
-	"net"
 	"io"
 	"log"
+	"net"
+	"os"
+	"os/signal"
 )
 
 func serve() {
-	x, _ := net.Listen("tcp", ":8080")
+	l, _ := net.Listen("tcp", ":8080")
 	for {
-		c, _ := x.Accept()
+		c, _ := l.Accept()
 		go echo(c)
 	}
 }
 
 func echo(c net.Conn) {
 	defer c.Close()
-	i, err := io.Copy(c, c)
+	n, err := io.Copy(c, c)
 	if err != nil {
 		log.Println(err)
 	} else {
-		log.Println(i)
+		log.Println(n)
 	}
 }
 
