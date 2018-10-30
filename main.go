@@ -8,6 +8,15 @@ import (
 	"os/signal"
 )
 
+func main() {
+	s := make(chan os.Signal, 1)
+	signal.Notify(s)
+
+	go serve()
+
+	<-s
+}
+
 func serve() {
 	l, _ := net.Listen("tcp", ":8080")
 	for {
@@ -24,13 +33,4 @@ func echo(c net.Conn) {
 	} else {
 		log.Println(n)
 	}
-}
-
-func main() {
-	s := make(chan os.Signal, 1)
-	signal.Notify(s)
-
-	go serve()
-
-	<-s
 }
