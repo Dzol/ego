@@ -1,10 +1,14 @@
 package main
 
-import "net"
-import "io"
-import "log"
+import (
+	"os"
+	"os/signal"
+	"net"
+	"io"
+	"log"
+)
 
-func main() {
+func serve() {
 	x, _ := net.Listen("tcp", ":8080")
 	for {
 		c, _ := x.Accept()
@@ -20,4 +24,13 @@ func echo(c net.Conn) {
 	} else {
 		log.Println(i)
 	}
+}
+
+func main() {
+	s := make(chan os.Signal, 1)
+	signal.Notify(s)
+
+	go serve()
+
+	<-s
 }
